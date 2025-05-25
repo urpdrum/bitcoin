@@ -28,7 +28,7 @@
 //        @Value("${bitcoin.currency:usd}") // Moeda para monitorar (usd, brl, eur)
 //        private String currency;
 //
-//        @Value("${alert.drop.percentage:0.30}") // Alerta se cair 30% (0.30)
+//        @Value("${alert.drop.percentage:0.02}") // Alerta se cair 30% (0.30)
 //        private double alertDropPercentage;
 //
 //        private Double initialPrice = null;
@@ -137,7 +137,7 @@
 
  //====================
 
-// c[odigo 22222
+ //c[odigo 22222
 //        package com.alerta.bitcoin.service; // Ou o seu pacote
 //
 //import com.alerta.bitcoin.dto.BitcoinPriceResponse;
@@ -260,11 +260,11 @@
 //        }
 //
 //        // ********************************************************************
-//// ** BLOCO DE TESTE TEMPORÁRIO - REMOVER DEPOIS **
-//        if (this.initialPrice != null && Math.abs(this.initialPrice - currentPrice) < 10) { // Se o preço mudou pouco
-//            logger.warn("!!! MODO DE TESTE: FORÇANDO QUEDA DE PREÇO PARA TESTAR ALERTA !!!");
-//            currentPrice = this.initialPrice * 0.98; // Força uma queda de 2% (que é > 1% do seu teste)
-//        }
+////// ** BLOCO DE TESTE TEMPORÁRIO - REMOVER DEPOIS **
+////        if (this.initialPrice != null && Math.abs(this.initialPrice - currentPrice) < 10) { // Se o preço mudou pouco
+////            logger.warn("!!! MODO DE TESTE: FORÇANDO QUEDA DE PREÇO PARA TESTAR ALERTA !!!");
+////            currentPrice = this.initialPrice * 0.98; // Força uma queda de 2% (que é > 1% do seu teste)
+////        }
 ////===============================================================
 //        String currentPriceFormatted = String.format("%.2f", currentPrice);
 //        String initialPriceFormatted = String.format("%.2f", this.initialPrice);
@@ -335,16 +335,16 @@ public class BitcoinMonitorService {
     @Value("${coingecko.api.url:https://api.coingecko.com/api/v3/simple/price}")
     private String coingeckoApiUrl;
 
-    @Value("${bitcoin.currency:usd}")
+    @Value("${bitcoin.currency:brl}")
     private String currency;
 
     // Alertas de Queda
-    @Value("${alert.drop.percentage:0.30}") // Alerta se cair 30% (0.30)
+    @Value("${alert.drop.percentage:0.01}") // Alerta se cair 30% (0.30)
     private double alertDropPercentage;
     private boolean alertSentForCurrentDrop = false;
 
     // Alertas de Aumento (NOVAS PROPRIEDADES)
-    @Value("${alert.rise.percentage:0.20}") // Alerta se subir 20% (0.20)
+    @Value("${alert.rise.percentage:0.01}") // Alerta se subir 20% (0.20)
     private double alertRisePercentage;
     private boolean alertSentForCurrentRise = false;
 
@@ -431,6 +431,23 @@ public class BitcoinMonitorService {
             logger.warn("Não foi possível buscar o preço atual do Bitcoin para verificação.");
             return;
         }
+//        // ********************************************************************
+//        // ************************Testes de Alerta -- altere o aplications.propierts para 0.01*********AUMENTO******************************************
+//// ** BLOCO DE TESTE TEMPORÁRIO PARA AUMENTO DE PREÇO - REMOVER DEPOIS **
+//// Certifique-se que alert.rise.percentage está configurado para um valor pequeno
+//// como 0.01 no application.properties para este teste.
+//        if (this.initialPrice != null && Math.abs(this.initialPrice - currentPrice) < (this.initialPrice * 0.005)) { // Se o preço mudou muito pouco (menos de 0.5%)
+//            logger.warn("!!! MODO DE TESTE: FORÇANDO AUMENTO DE PREÇO PARA TESTAR ALERTA DE ALTA !!!");
+//            currentPrice = this.initialPrice * 1.02; // Força um aumento de 2% (que deve ser > que o seu alert.rise.percentage de teste)
+//        }
+////// ***************************************************************************
+////        // ****************Testes de Alerta***************************Baxa NO PREÇO*************************
+////// ** BLOCO DE TESTE TEMPORÁRIO - REMOVER DEPOIS **
+//       if  (this.initialPrice != null && Math.abs(this.initialPrice - currentPrice) < 10) { // Se o preço mudou pouco
+//            logger.warn("!!! MODO DE TESTE: FORÇANDO QUEDA DE PREÇO PARA TESTAR ALERTA !!!");
+//            currentPrice = this.initialPrice * 0.98; // Força uma queda de 2% (que é > 1% do seu teste)
+//        }
+//// ********************************************************************
 
 
         String currentPriceFormatted = String.format("%.2f", currentPrice);
