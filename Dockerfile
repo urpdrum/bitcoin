@@ -7,7 +7,7 @@ WORKDIR /app
 
 # Copiar o arquivo JAR construído para o diretório de trabalho no contêiner
 # Adapte o nome do JAR se necessário (ex: se tiver snapshot ou versão específica)
-COPY target/bitcoin-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /build-app/target/bitcoin-0.0.1-SNAPSHOT.jar app.jar
 # Se usar Gradle, o caminho seria algo como:
 # COPY build/libs/bitcoin-desktop-alert-0.0.1-SNAPSHOT.jar app.jar
 
