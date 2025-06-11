@@ -11,10 +11,20 @@ public class WebClientConfig {
     @Value("${mercado-bitcoin.api.base-url.public}")
     private String mercadoBitcoinPublicApiBaseUrl;
 
-    @Bean // O Spring vai criar e gerenciar uma instância de WebClient
+    @Value("${mercado-bitcoin.api.base-url.private}") // Adicione esta linha
+    private String mercadoBitcoinPrivateApiBaseUrl;   // Adicione esta linha
+
+    @Bean
     public WebClient mercadoBitcoinPublicWebClient() {
         return WebClient.builder()
-                .baseUrl(mercadoBitcoinPublicApiBaseUrl) // URL base para todas as chamadas
+                .baseUrl(mercadoBitcoinPublicApiBaseUrl)
+                .build();
+    }
+
+    @Bean // NOVO BEAN PARA A API PRIVADA
+    public WebClient mercadoBitcoinPrivateWebClient() {
+        return WebClient.builder()
+                .baseUrl(mercadoBitcoinPrivateApiBaseUrl)
                 .build();
     }
 }
